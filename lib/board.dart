@@ -12,10 +12,14 @@ class Board extends StatefulWidget {
   }
 }
 
+Widget buildBoard(BuildContext context) {
+  return const Board();
+}
+
 class _BoardState extends State<Board> {
-  List<Matrix4> _imageMatrices = [];
-  List<File> _selectedImages = [];
-  double _imageScaleFactor = 0.5;
+  final List<Matrix4> _imageMatrices = [];
+  final List<File> _selectedImages = [];
+  final double _imageScaleFactor = 0.5;
 
   Future<void> _pickImageFromGallery() async {
     final pickedImage =

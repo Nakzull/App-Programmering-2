@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'takePicture.dart';
 import 'board.dart';
+import 'http.dart';
 
 class MainMenuScreen extends StatefulWidget {
   const MainMenuScreen({super.key});
@@ -22,6 +23,10 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
 
   Widget buildBoard(BuildContext context) {
     return const Board();
+  }
+
+  Widget buildHttp(BuildContext context) {
+    return const Http();
   }
 
   @override
@@ -70,6 +75,13 @@ class _MainMenuScreenState extends State<MainMenuScreen> {
               onTap: () {
                 Navigator.pop(context);
                 Navigator.push(context, MaterialPageRoute(builder: buildBoard));
+              },
+            ),
+            ListTile(
+              title: const Text('Hello World'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(context, MaterialPageRoute(builder: buildHttp));
               },
             )
           ],

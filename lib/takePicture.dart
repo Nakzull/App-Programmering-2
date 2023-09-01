@@ -28,7 +28,7 @@ class _CameraPreviewScreenState extends State<CameraPreviewScreen> {
             ),
           ),
           ElevatedButton(
-            onPressed: () async {
+            onPressed: () {
               _takePicture(context);
             },
             child: const Text('Take Picture'),
