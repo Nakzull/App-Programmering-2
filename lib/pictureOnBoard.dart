@@ -1,12 +1,13 @@
+// ignore_for_file: file_names
+
 import 'package:flutter/material.dart';
 import 'package:matrix_gesture_detector/matrix_gesture_detector.dart';
 
 class PictureOnBoard extends StatelessWidget {
   final Widget child;
 
-  const PictureOnBoard({super.key, required this.child});
+  const PictureOnBoard({Key? key, required this.child});
 
-  
   @override
   Widget build(BuildContext context) {
     final ValueNotifier<Matrix4> notifier = ValueNotifier(Matrix4.identity());
@@ -23,7 +24,7 @@ class PictureOnBoard extends StatelessWidget {
               alignment: Alignment.center,
               child: FittedBox(
                 fit: BoxFit.contain,
-                child: child
+                child: child,
               ),
             ),
           );
