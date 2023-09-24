@@ -1,3 +1,4 @@
+import 'package:app5/http.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
@@ -12,24 +13,37 @@ class Board extends StatefulWidget {
   }
 }
 
+//A factory function to build the Board widget.
+Widget buildBoard(BuildContext context) {
+  return const Board();
+}
+
 class _BoardState extends State<Board> {
-  List<Matrix4> _imageMatrices = [];
-  List<File> _selectedImages = [];
-  double _imageScaleFactor = 0.5;
+  final UserRepository userRepository = locator<UserRepository>();
+  final List<Matrix4> _imageMatrices = [];
+  final List<File> _selectedImages = [];
+  final double _imageScaleFactor = 0.5;
 
+  //Function to pick an image from the gallery.
   Future<void> _pickImageFromGallery() async {
-    final pickedImage =
-        await ImagePicker().pickImage(source: ImageSource.gallery);
+    final pickedImage = await ImagePicker().pickImage(source: ImageSource.gallery);
 
+    //Check if an image is picked and then uploads it to the server.
     if (pickedImage != null) {
+      final imageFile = File(pickedImage.path);
+
+      userRepository.uploadPicture(imageFile, 'UploadPicture');
+
+      //Downloads the newest added image from the server.
+      final imageUrl = await userRepository.downloadNewestPicture('DownloadPicture');
       setState(() {
-        _selectedImages.add(File(pickedImage.path));
-        _imageMatrices.add(
-            Matrix4.diagonal3Values(_imageScaleFactor, _imageScaleFactor, 1.0));
+        _selectedImages.add(imageUrl);
+        _imageMatrices.add(Matrix4.diagonal3Values(_imageScaleFactor, _imageScaleFactor, 1.0));
       });
     }
   }
 
+  //Function to remove all images from the board.
   void _removeAllImages() {
     setState(() {
       _selectedImages.clear();
@@ -70,6 +84,8 @@ class _BoardState extends State<Board> {
               ),
             ),
           ),
+          //This displays all the images on board and adds them to the matrix list,
+          //which enables the moving and resizing of the images.
           for (int i = 0; i < _selectedImages.length; i++)
             Positioned.fill(
               child: MatrixGestureDetector(
